@@ -1,13 +1,11 @@
 #include "Field.hpp"
 
-Field::Field(const int& width, const int& height)
-    : field_(std::vector<std::vector<char>>(height, std::vector<char>(width, ' '))),
-    width_(width),
-    height_(height) {}
+Field::Field(const size_t& sz)
+    : field_(std::vector<std::vector<char>>(sz, std::vector<char>(sz, ' '))),
+    size_(sz) {}
 
 Field& Field::operator=(const Field& other) {
-    this->width_ = other.width_;
-    this->height_ = other.height_;
+    this->size_ = other.size_;
     this->field_ = other.field_;
     return (*this);
 }
@@ -16,71 +14,48 @@ char Field::getElement(const int& posX, const int& posY) const {
     return field_[posX][posY];
 }
 
-void Field::setElement(const std::string& line, EPalyers& player) {
-    char ch = player == EPalyers::playerOne ? 'X' : 'Y';
-    ++move_;
+bool Field::setElement(const std::string& line, EPalyers& player) {
+    char ch = player == EPalyers::playerOne ? 'X' : 'O';
 
-    if (line == "A1" && field_[0][0] == ' ')
-        field_[0][0] = ch;
-    else if (line == "A2" && field_[0][1] == ' ')
-        field_[0][1] = ch;
-    else if (line == "A3" && field_[0][2] == ' ')
-        field_[0][2] = ch;
-    else if (line == "B1" && field_[1][0] == ' ')
-        field_[1][0] = ch;
-    else if (line == "B2" && field_[1][1] == ' ')
-        field_[1][1] = ch;
-    else if (line == "B3" && field_[1][2] == ' ')
-        field_[1][2] = ch;
-    else if (line == "C1" && field_[2][0] == ' ')
-        field_[2][0] = ch;
-    else if (line == "C2" && field_[2][1] == ' ')
-        field_[2][1] = ch;
-    else if (line == "C3" && field_[2][2] == ' ')
-        field_[2][2] = ch;
-    else {
-        player = player == EPalyers::playerOne ? EPalyers::playerTwo : EPalyers::playerOne;
-        --move_;
+    for (char c = 'A'; c <= size_ + 'A'; ++c) {
+        for (int i = 1; i <= size_; ++i) {
+            std::string s = c + std::to_string(i);
+            if (line == s && field_[c - 'A'][i - 1] == ' ') {
+                field_[c - 'A'][i - 1] = ch;
+                player = player == EPalyers::playerOne ? EPalyers::playerTwo : EPalyers::playerOne;
+                return true;
+            }
+        }
     }
+    return false;
 }
 
-void Field::setElement(const int& posX, const int& posY, const EPalyers& player) {
+bool Field::setElement(const int& posX, const int& posY, const EPalyers& player) {
     switch (player)
     {
     case EPalyers::playerOne:
         field_[posX][posY] = 'X';
-        break;
+        return true;
     case EPalyers::playerTwo:
         field_[posX][posY] = 'O';
-        break;
+        return true;
     }
+    return false;
 }
 
-int Field::getWidth() const {
-    return width_;
+int Field::getSize() const {
+    return size_;
 }
 
-int Field::getHeight() const {
-    return height_;
-}
-
-void Field::setWidth(const int& width) {
-    width_ = width;
-}
-
-void Field::setHeight(const int& height) {
-    height_ = height;
-}
-
-bool Field::isAllFields() {
-    return move_ == width_ * height_;
+void Field::setSize(const size_t& sz) {
+    size_ = sz;
 }
 
 EPalyers Field::checkWinner() {
-    for (int i = 0; i < width_; ++i) {
+    for (int i = 0; i < size_; ++i) {
         int countX_1 = 0, countO_1 = 0;
         int countX_2 = 0, countO_2 = 0;
-        for (int j = 0; j < height_; ++j) {
+        for (int j = 0; j < size_; ++j) {
             if (field_[i][j] == 'O')
                 ++countO_1;
             if (field_[i][j] == 'X')
@@ -91,35 +66,35 @@ EPalyers Field::checkWinner() {
             if (field_[j][i] == 'X')
                 ++countX_2;
 
-            if (countX_1 == 3 || countX_2 == 3)
+            if (countX_1 == size_ || countX_2 == size_)
                 return EPalyers::playerOne;
-            if (countO_1 == 3 || countO_2 == 3)
+            if (countO_1 == size_ || countO_2 == size_)
                 return EPalyers::playerTwo;
         }
     }
 
     int countX = 0, countO = 0;
-    for (int i = 0, j = 0; i < width_ && j < height_; ++i, ++j) {
+    for (int i = 0, j = 0; i < size_ && j < size_; ++i, ++j) {
         if (field_[i][j] == 'O')
             ++countO;
         if (field_[i][j] == 'X')
             ++countX;
 
-        if (countX == 3)
+        if (countX == size_)
             return EPalyers::playerOne;
-        if (countO == 3)
+        if (countO == size_)
             return EPalyers::playerTwo;
     }
     countX = 0, countO = 0;
-    for (int i = 0, j = height_ - 1; i < width_ && j >= 0; ++i, --j) {
+    for (int i = 0, j = size_ - 1; i < size_ && j >= 0; ++i, --j) {
         if (field_[i][j] == 'O')
             ++countO;
         if (field_[i][j] == 'X')
             ++countX;
 
-        if (countX == 3)
+        if (countX == size_)
             return EPalyers::playerOne;
-        if (countO == 3)
+        if (countO == size_)
             return EPalyers::playerTwo;
     }
 

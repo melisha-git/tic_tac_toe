@@ -12,23 +12,18 @@ enum EPalyers {
 class Field {
 private:
     std::vector<std::vector<char>> field_;
-    int width_;
-    int height_;
-    int move_ = 0;
+    size_t size_;
 public:
-    Field(const int& width = 3, const int& height = 3);
+    Field(const size_t& sz = 3);
     Field& operator=(const Field& other);
 
     char getElement(const int& posX, const int& posY) const;
-    void setElement(const std::string& line, EPalyers& player);
-    void setElement(const int& posX, const int& posY, const EPalyers& player);
+    bool setElement(const std::string& line, EPalyers& player);
+    bool setElement(const int& posX, const int& posY, const EPalyers& player);
 
-    int getWidth() const;
-    int getHeight() const;
+    int getSize() const;
 
-    void setWidth(const int& width);
-    void setHeight(const int& height);
+    void setSize(const size_t& sz);
 
-    bool isAllFields();
     EPalyers checkWinner();
 };
