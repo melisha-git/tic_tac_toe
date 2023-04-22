@@ -1,28 +1,7 @@
 #include "TicTacToe.hpp"
 
-TicTacToe::TicTacToe(const std::string& playerOne, const std::string& playerTwo, const Field& field) :
-    playersName_{ {EPalyers::Undefined, "TIE!"},  {EPalyers::playerOne, playerOne}, {EPalyers::playerTwo, playerTwo} }, field_(4) {}
-
-TicTacToe::TicTacToe(std::map<EPalyers, std::string> playersName, const Field& field) : playersName_(playersName), field_(4) {
-    if (playersName_.count(Undefined) == 0)
-        playersName_[Undefined] = "TIE!";
-}
-
-std::map<EPalyers, std::string> TicTacToe::Register() {
-    std::string name;
-    std::map<EPalyers, std::string> players;
-
-    std::cout << "Write Player One Name: ";
-    std::getline(std::cin, name);
-    players[playerOne] = name;
-
-    std::cout << "Write Player Two Name: ";
-    name.clear();
-    std::getline(std::cin, name);
-    players[playerTwo] = name;
-
-    return players;
-}
+TicTacToe::TicTacToe(const Settings& settings, const Field& field) :
+    playersName_{ {EPlayers::Undefined, "TIE!"},  {EPlayers::playerOne, settings.getName(EPlayers::playerOne)}, {EPlayers::playerTwo, settings.getName(EPlayers::playerTwo)}}, field_(settings.getSize()) {}
 
 void TicTacToe::print() {
     sleepPrint();
@@ -59,8 +38,8 @@ void TicTacToe::print() {
         std::cout << std::endl;
     }
     std::cout << std::endl;
-    EPalyers win = field_.checkWinner();
-    if (win != EPalyers::Undefined || stroke_ == field_.getSize() * field_.getSize()) {
+    EPlayers win = field_.checkWinner();
+    if (win != EPlayers::Undefined || stroke_ == field_.getSize() * field_.getSize()) {
         winner_ = win;
         throw std::exception();
     }

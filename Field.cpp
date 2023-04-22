@@ -14,15 +14,15 @@ char Field::getElement(const int& posX, const int& posY) const {
     return field_[posX][posY];
 }
 
-bool Field::setElement(const std::string& line, EPalyers& player) {
-    char ch = player == EPalyers::playerOne ? 'X' : 'O';
+bool Field::setElement(const std::string& line, EPlayers& player) {
+    char ch = player == EPlayers::playerOne ? 'X' : 'O';
 
     for (char c = 'A'; c <= size_ + 'A'; ++c) {
         for (int i = 1; i <= size_; ++i) {
             std::string s = c + std::to_string(i);
             if (line == s && field_[c - 'A'][i - 1] == ' ') {
                 field_[c - 'A'][i - 1] = ch;
-                player = player == EPalyers::playerOne ? EPalyers::playerTwo : EPalyers::playerOne;
+                player = player == EPlayers::playerOne ? EPlayers::playerTwo : EPlayers::playerOne;
                 return true;
             }
         }
@@ -30,13 +30,13 @@ bool Field::setElement(const std::string& line, EPalyers& player) {
     return false;
 }
 
-bool Field::setElement(const int& posX, const int& posY, const EPalyers& player) {
+bool Field::setElement(const int& posX, const int& posY, const EPlayers& player) {
     switch (player)
     {
-    case EPalyers::playerOne:
+    case EPlayers::playerOne:
         field_[posX][posY] = 'X';
         return true;
-    case EPalyers::playerTwo:
+    case EPlayers::playerTwo:
         field_[posX][posY] = 'O';
         return true;
     }
@@ -51,7 +51,7 @@ void Field::setSize(const size_t& sz) {
     size_ = sz;
 }
 
-EPalyers Field::checkWinner() {
+EPlayers Field::checkWinner() {
     for (int i = 0; i < size_; ++i) {
         int countX_1 = 0, countO_1 = 0;
         int countX_2 = 0, countO_2 = 0;
@@ -67,9 +67,9 @@ EPalyers Field::checkWinner() {
                 ++countX_2;
 
             if (countX_1 == size_ || countX_2 == size_)
-                return EPalyers::playerOne;
+                return EPlayers::playerOne;
             if (countO_1 == size_ || countO_2 == size_)
-                return EPalyers::playerTwo;
+                return EPlayers::playerTwo;
         }
     }
 
@@ -81,9 +81,9 @@ EPalyers Field::checkWinner() {
             ++countX;
 
         if (countX == size_)
-            return EPalyers::playerOne;
+            return EPlayers::playerOne;
         if (countO == size_)
-            return EPalyers::playerTwo;
+            return EPlayers::playerTwo;
     }
     countX = 0, countO = 0;
     for (int i = 0, j = size_ - 1; i < size_ && j >= 0; ++i, --j) {
@@ -93,11 +93,11 @@ EPalyers Field::checkWinner() {
             ++countX;
 
         if (countX == size_)
-            return EPalyers::playerOne;
+            return EPlayers::playerOne;
         if (countO == size_)
-            return EPalyers::playerTwo;
+            return EPlayers::playerTwo;
     }
 
-    return EPalyers::Undefined;
+    return EPlayers::Undefined;
 }
 

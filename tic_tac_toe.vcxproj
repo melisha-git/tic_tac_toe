@@ -128,11 +128,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Field.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Settings.cpp" />
     <ClCompile Include="TicTacToe.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EPlayers.hpp" />
     <ClInclude Include="Field.hpp" />
+    <ClInclude Include="Menu.hpp" />
+    <ClInclude Include="Settings.hpp" />
     <ClInclude Include="TicTacToe.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,28 +2,23 @@
 
 #include <vector>
 #include <string>
-
-enum EPalyers {
-    Undefined = 0,
-    playerOne = 1,
-    playerTwo = 2
-};
+#include "EPlayers.hpp"
 
 class Field {
 private:
     std::vector<std::vector<char>> field_;
     size_t size_;
 public:
-    Field(const size_t& sz = 3);
+    Field(const size_t& sz);
     Field& operator=(const Field& other);
 
     char getElement(const int& posX, const int& posY) const;
-    bool setElement(const std::string& line, EPalyers& player);
-    bool setElement(const int& posX, const int& posY, const EPalyers& player);
+    bool setElement(const std::string& line, EPlayers& player);
+    bool setElement(const int& posX, const int& posY, const EPlayers& player);
 
     int getSize() const;
 
     void setSize(const size_t& sz);
 
-    EPalyers checkWinner();
+    EPlayers checkWinner();
 };
