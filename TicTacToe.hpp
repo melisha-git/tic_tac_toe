@@ -7,6 +7,7 @@
 #include <map>
 #include "Field.hpp"
 #include "Settings.hpp"
+#include "Menu.hpp"
 
 class TicTacToe {
 private:

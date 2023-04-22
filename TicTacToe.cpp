@@ -4,8 +4,6 @@ TicTacToe::TicTacToe(const Settings& settings, const Field& field) :
     playersName_{ {EPlayers::Undefined, "TIE!"},  {EPlayers::playerOne, settings.getName(EPlayers::playerOne)}, {EPlayers::playerTwo, settings.getName(EPlayers::playerTwo)}}, field_(settings.getSize()) {}
 
 void TicTacToe::print() {
-    sleepPrint();
-    system("cls");
     std::cout << " \t";
     for (int i = 1; i <= field_.getSize(); ++i)
         std::cout << "  " << i << "   ";
@@ -44,6 +42,8 @@ void TicTacToe::print() {
         throw std::exception();
     }
     std::cout << commands_;
+    sleepPrint();
+    system("cls");
 }
 
 void TicTacToe::keyHandler() {
@@ -60,6 +60,17 @@ void TicTacToe::keyHandler() {
                 commands_.resize(commands_.size() - 1);
             }
             break;
+        case 27: {
+            Menu<EPlayMenu> playMenu;
+            switch (playMenu.getMenu())
+            {
+            case EPlayMenu::ESC:
+            case EPlayMenu::YES:
+                throw std::logic_error("");
+            case EPlayMenu::NO:
+                break;
+            }
+        }
         default:
             commands_ += key;
         }
