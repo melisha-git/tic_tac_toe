@@ -1,7 +1,12 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 #include "EPlayers.hpp"
+#include <chrono>
+#include <thread>
+#include <conio.h>
+#include <algorithm>
 
 class Settings {
 private:
@@ -17,4 +22,7 @@ public:
 	void setSize(size_t sz);
 
 	void setName(const EPlayers& player, const std::string& name);
+
+	void printSize();
+	void printPlayer(const EPlayers& player);
 };

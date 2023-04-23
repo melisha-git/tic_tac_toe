@@ -19,13 +19,13 @@ private:
     std::string commands_;
     int stroke_ = 0;
 public:
-    TicTacToe(const Settings &settings, const Field& field = Field(3));
+    TicTacToe(const Settings &settings);
     TicTacToe() = delete;
 
     bool print();
     bool keyHandler();
 
-    EPlayers getWinner();
+    std::string getWinner();
 private:
     void sleepPrint();
 };

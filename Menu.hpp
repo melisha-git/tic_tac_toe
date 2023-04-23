@@ -8,17 +8,17 @@
 #include <map>
 #include <set>
 
+enum class ESettingsMenu : int {
+	ESC = -1,
+	Size = 0,
+	PlayerOne = 1,
+	PlayerTwo = 2,
+};
+
 enum class EMainMenu : int {
 	ESC = -1,
 	Play = 0,
 	Settings = 1
-};
-
-enum class ESettingsMenu : int {
-	ESC = -1,
-	PlayerOne = 0,
-	PlayerTwo = 1,
-	Size = 3
 };
 
 enum class EPlayMenu : int {

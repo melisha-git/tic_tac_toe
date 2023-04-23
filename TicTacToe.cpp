@@ -1,6 +1,6 @@
 #include "TicTacToe.hpp"
 
-TicTacToe::TicTacToe(const Settings& settings, const Field& field) :
+TicTacToe::TicTacToe(const Settings& settings) :
     playersName_{ {EPlayers::Undefined, "TIE!"},  {EPlayers::playerOne, settings.getName(EPlayers::playerOne)}, {EPlayers::playerTwo, settings.getName(EPlayers::playerTwo)}}, field_(settings.getSize()) {}
 
 bool TicTacToe::print() {
@@ -79,12 +79,12 @@ bool TicTacToe::keyHandler() {
     return print();
 }
 
-EPlayers TicTacToe::getWinner()
+std::string TicTacToe::getWinner()
 {
-    return winner_;
+    return playersName_[winner_];
 }
 
 void TicTacToe::sleepPrint() {
     using namespace std;
-    std::this_thread::sleep_for(60ms);
+    std::this_thread::sleep_for(10ms);
 }

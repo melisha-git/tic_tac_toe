@@ -14,6 +14,29 @@ Menu<EPlayMenu>::Menu() {
 }
 
 template <>
+Menu<ESettingsMenu>::Menu() {
+	menu_ = ESettingsMenu::Size;
+}
+
+template <>
+void Menu<ESettingsMenu>::MenuPrint() {
+	switch (menu_)
+	{
+	case ESettingsMenu::Size:
+		std::cout << "\t<\\\\Size//>\n\t<Player One>\n\t<Player Two>" << std::endl;
+		break;
+	case ESettingsMenu::PlayerOne:
+		std::cout << "\t<Size>\n\t<\\\\Player One//>\n\t<Player Two>" << std::endl;
+		break;
+	case ESettingsMenu::PlayerTwo:
+		std::cout << "\t<Size>\n\t<Player One>\n\t<\\\\Player Two//>" << std::endl;
+		break;
+	default:
+		break;
+	}
+}
+
+template <>
 void Menu<EMainMenu>::MenuPrint() {
 	switch (menu_)
 	{
@@ -57,31 +80,66 @@ T Menu<T>::getMenu()
 EPlayMenu Menu<EPlayMenu>::getMenu() {
 	int key = 0;
 	do {
-	    if (_kbhit()) {
-	        key = _getch();
-	        switch (key)
-	        {
-	        case 75:
-	            if (menu_ == EPlayMenu::NO)
-	                menu_ = EPlayMenu::YES;
-	            else
+		if (_kbhit()) {
+			key = _getch();
+			switch (key)
+			{
+			case 75:
+				if (menu_ == EPlayMenu::NO)
+					menu_ = EPlayMenu::YES;
+				else
 					menu_ = EPlayMenu::NO;
-	            break;
-	        case 77:
+				break;
+			case 77:
 				if (menu_ == EPlayMenu::YES)
 					menu_ = EPlayMenu::NO;
 				else
 					menu_ = EPlayMenu::YES;
-	            break;
-	        }
-	    }
-	    MenuPrint();
-	    using namespace std::chrono_literals;
-	    std::this_thread::sleep_for(60ms);
+				break;
+			}
+		}
+		MenuPrint();
+		using namespace std::chrono_literals;
+		std::this_thread::sleep_for(10ms);
 		system("cls");
 	} while (key != 27 && key != 13);
 	if (key == 27)
-	    return EPlayMenu::ESC;
+		return EPlayMenu::ESC;
+	return menu_;
+}
+
+ESettingsMenu Menu<ESettingsMenu>::getMenu() {
+	int key = 0;
+	do {
+	    if (_kbhit()) {
+	        key = _getch();
+			switch (key)
+			{
+			case 72:
+				if (menu_ == ESettingsMenu::Size)
+					menu_ = ESettingsMenu::PlayerTwo;
+				else if (menu_ == ESettingsMenu::PlayerTwo)
+					menu_ = ESettingsMenu::PlayerOne;
+				else
+					menu_ = ESettingsMenu::Size;
+				break;
+			case 80:
+				if (menu_ == ESettingsMenu::PlayerTwo)
+					menu_ = ESettingsMenu::Size;
+				else if (menu_ == ESettingsMenu::PlayerOne)
+					menu_ = ESettingsMenu::PlayerTwo;
+				else
+					menu_ = ESettingsMenu::PlayerOne;
+				break;
+			}
+	    }
+	    MenuPrint();
+	    using namespace std::chrono_literals;
+	    std::this_thread::sleep_for(10ms);
+		system("cls");
+	} while (key != 27 && key != 13);
+	if (key == 27)
+	    return ESettingsMenu::ESC;
 	return menu_;
 }
 
@@ -108,7 +166,7 @@ EMainMenu Menu<EMainMenu>::getMenu() {
         }
         MenuPrint();
         using namespace std::chrono_literals;
-        std::this_thread::sleep_for(60ms);
+        std::this_thread::sleep_for(10ms);
 		system("cls");
     } while (key != 27 && key != 13);
     if (key == 27)

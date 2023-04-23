@@ -34,3 +34,59 @@ void Settings::setName(const EPlayers& player, const std::string& name) {
 		playerTwo_ = name;
 	}
 }
+
+void Settings::printSize() {
+	int key = 0;
+	std::string commandLine;
+	do {
+		if (_kbhit()) {
+			key = _getch();
+			switch (key)
+			{
+			case 13:
+				if (std::all_of(commandLine.begin(), commandLine.end(), ::isdigit)) {
+					setSize(std::stoul(commandLine));
+				}
+				break;
+			case 27:
+				break;
+			default:
+				commandLine += static_cast<char>(key);
+				break;
+			}
+		}
+		std::cout << "Size: " << commandLine << "|" << std::endl;
+		using namespace std::chrono_literals;
+		std::this_thread::sleep_for(10ms);
+		system("cls");
+	} while (key != 27 && key != 13);
+}
+
+void Settings::printPlayer(const EPlayers& player)
+{
+	int key = 0;
+	std::string commandLine;
+	do {
+		if (_kbhit()) {
+			key = _getch();
+			switch (key)
+			{
+			case 13:
+				setName(player, commandLine);
+				break;
+			case 27:
+				break;
+			default:
+				commandLine += static_cast<char>(key);
+				break;
+			}
+		}
+		if (player == EPlayers::playerOne)
+			std::cout << "Player One Name: " << commandLine << "|" << std::endl;
+		else
+			std::cout << "Player Two Name: " << commandLine << "|" << std::endl;
+		using namespace std::chrono_literals;
+		std::this_thread::sleep_for(10ms);
+		system("cls");
+	} while (key != 27 && key != 13);
+}
