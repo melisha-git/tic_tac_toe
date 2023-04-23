@@ -14,6 +14,13 @@ enum class EMainMenu : int {
 	Settings = 1
 };
 
+enum class ESettingsMenu : int {
+	ESC = -1,
+	PlayerOne = 0,
+	PlayerTwo = 1,
+	Size = 3
+};
+
 enum class EPlayMenu : int {
 	ESC = -1,
 	NO = 0,

@@ -29,6 +29,7 @@ void Menu<EMainMenu>::MenuPrint() {
 
 template <>
 void Menu<EPlayMenu>::MenuPrint() {
+	std::cout << "    Do you want to go out?" << std::endl;
 	switch (menu_)
 	{
 	case EPlayMenu::NO:

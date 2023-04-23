@@ -22,10 +22,10 @@ public:
     TicTacToe(const Settings &settings, const Field& field = Field(3));
     TicTacToe() = delete;
 
-    void print();
-    void keyHandler();
+    bool print();
+    bool keyHandler();
 
-    ~TicTacToe();
+    EPlayers getWinner();
 private:
     void sleepPrint();
 };

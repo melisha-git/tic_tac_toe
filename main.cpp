@@ -1,29 +1,48 @@
 ﻿#include "TicTacToe.hpp"
 #include "Menu.hpp"
 
-int main()
-{
+void MainMenu();
+
+void PlayOrSettings(const EMainMenu& objMenu) {
     Settings settings;
-    Menu<EMainMenu> mainMenu;
-    switch (mainMenu.getMenu()) {
-    case EMainMenu::ESC: {
-        std::cout << "Good Bye :)\n";
-        return 0;
-    }
+    switch (objMenu) {
     case EMainMenu::Play: {
         TicTacToe game(settings);
-        try {
-            while (1) {
-                game.print();
-                game.keyHandler();
-            }
+        if (game.print()) {
+            std::cout << "Winner is " << game.getWinner();
+            return;
         }
-        catch (...) {}
-        return 0;
+        return MainMenu();
     }
     case EMainMenu::Settings: {
         break;
     }
     }
+}
+
+void MainMenu() {
+    Menu<EMainMenu> mainMenu;
+    EMainMenu objMenu;
+    do {
+        objMenu = mainMenu.getMenu();
+        if (objMenu == EMainMenu::ESC) {
+            Menu<EPlayMenu> playMenu;
+            switch (playMenu.getMenu())
+            {
+            case EPlayMenu::ESC:
+            case EPlayMenu::NO:
+                break;
+            case EPlayMenu::YES:
+                std::cout << "Good Luck!" << std::endl;
+                return;
+            }
+        }
+    } while (objMenu != EMainMenu::Play && objMenu != EMainMenu::Settings);
+    return PlayOrSettings(objMenu);
+}
+
+int main()
+{
+    MainMenu();
     return 0;
 }

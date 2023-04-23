@@ -3,7 +3,7 @@
 TicTacToe::TicTacToe(const Settings& settings, const Field& field) :
     playersName_{ {EPlayers::Undefined, "TIE!"},  {EPlayers::playerOne, settings.getName(EPlayers::playerOne)}, {EPlayers::playerTwo, settings.getName(EPlayers::playerTwo)}}, field_(settings.getSize()) {}
 
-void TicTacToe::print() {
+bool TicTacToe::print() {
     std::cout << " \t";
     for (int i = 1; i <= field_.getSize(); ++i)
         std::cout << "  " << i << "   ";
@@ -39,14 +39,15 @@ void TicTacToe::print() {
     EPlayers win = field_.checkWinner();
     if (win != EPlayers::Undefined || stroke_ == field_.getSize() * field_.getSize()) {
         winner_ = win;
-        throw std::exception();
+        return true;
     }
     std::cout << commands_;
     sleepPrint();
     system("cls");
+    return keyHandler();
 }
 
-void TicTacToe::keyHandler() {
+bool TicTacToe::keyHandler() {
     if (_kbhit()) {
         int key = _getch();
         switch (key) {
@@ -64,9 +65,9 @@ void TicTacToe::keyHandler() {
             Menu<EPlayMenu> playMenu;
             switch (playMenu.getMenu())
             {
-            case EPlayMenu::ESC:
             case EPlayMenu::YES:
-                throw std::logic_error("");
+                return false;
+            case EPlayMenu::ESC:
             case EPlayMenu::NO:
                 break;
             }
@@ -75,12 +76,12 @@ void TicTacToe::keyHandler() {
             commands_ += key;
         }
     }
+    return print();
 }
 
-TicTacToe::~TicTacToe() {
-    if (playerMove_ != Undefined)
-        std::cout << "Winner is ";
-    std::cout << playersName_[winner_];
+EPlayers TicTacToe::getWinner()
+{
+    return winner_;
 }
 
 void TicTacToe::sleepPrint() {
