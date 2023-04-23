@@ -52,52 +52,53 @@ void Field::setSize(const size_t& sz) {
 }
 
 EPlayers Field::checkWinner() {
+    if (checkWinner('X')) {
+        return EPlayers::playerOne;
+    }
+    else if (checkWinner('O')) {
+        return EPlayers::playerTwo;
+    }
+    return EPlayers::Undefined;
+}
+
+bool Field::checkWinner(const char& ch)
+{
+    bool result = true;
     for (int i = 0; i < size_; ++i) {
-        int countX_1 = 0, countO_1 = 0;
-        int countX_2 = 0, countO_2 = 0;
+        result = true;
         for (int j = 0; j < size_; ++j) {
-            if (field_[i][j] == 'O')
-                ++countO_1;
-            if (field_[i][j] == 'X')
-                ++countX_1;
-
-            if (field_[j][i] == 'O')
-                ++countO_2;
-            if (field_[j][i] == 'X')
-                ++countX_2;
-
-            if (countX_1 == size_ || countX_2 == size_)
-                return EPlayers::playerOne;
-            if (countO_1 == size_ || countO_2 == size_)
-                return EPlayers::playerTwo;
+            if (field_[i][j] != ch || field_[i][size_ - 1 - j] != ch) {
+                result = false;
+                break;
+            }
+        }
+        if (result == true)
+            return result;
+    }
+    for (int i = 0; i < size_; ++i) {
+        result = true;
+        for (int j = 0; j < size_; ++j) {
+            if (field_[j][i] != ch || field_[j][size_ - 1 - i] != ch) {
+                result = false;
+                break;
+            }
+        }
+        if (result == true)
+            return result;
+    }
+    result = true;
+    for (int i = 0, j = 0; i < size_ && j < size_; ++i, ++j) {
+        if (field_[i][j] != ch) {
+            result = false;
+            break;
         }
     }
-
-    int countX = 0, countO = 0;
-    for (int i = 0, j = 0; i < size_ && j < size_; ++i, ++j) {
-        if (field_[i][j] == 'O')
-            ++countO;
-        if (field_[i][j] == 'X')
-            ++countX;
-
-        if (countX == size_)
-            return EPlayers::playerOne;
-        if (countO == size_)
-            return EPlayers::playerTwo;
-    }
-    countX = 0, countO = 0;
+    if (result == true)
+        return result;
     for (int i = 0, j = size_ - 1; i < size_ && j >= 0; ++i, --j) {
-        if (field_[i][j] == 'O')
-            ++countO;
-        if (field_[i][j] == 'X')
-            ++countX;
-
-        if (countX == size_)
-            return EPlayers::playerOne;
-        if (countO == size_)
-            return EPlayers::playerTwo;
+        if (field_[i][j] != ch)
+            return false;
     }
-
-    return EPlayers::Undefined;
+    return true;
 }
 

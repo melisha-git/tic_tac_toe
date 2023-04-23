@@ -134,6 +134,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CommandLine.hpp" />
     <ClInclude Include="EPlayers.hpp" />
     <ClInclude Include="Field.hpp" />
     <ClInclude Include="Menu.hpp" />

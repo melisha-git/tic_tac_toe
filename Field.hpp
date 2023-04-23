@@ -21,4 +21,5 @@ public:
     void setSize(const size_t& sz);
 
     EPlayers checkWinner();
+    bool checkWinner(const char& ch);
 };

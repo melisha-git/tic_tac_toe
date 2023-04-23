@@ -3,10 +3,8 @@
 #include <string>
 #include <iostream>
 #include "EPlayers.hpp"
-#include <chrono>
-#include <thread>
-#include <conio.h>
 #include <algorithm>
+#include "CommandLine.hpp"
 
 class Settings {
 private:
@@ -22,6 +20,7 @@ public:
 	void setSize(size_t sz);
 
 	void setName(const EPlayers& player, const std::string& name);
+	static void setPlayerName(std::string& thisName, const std::string& otherName);
 
 	void printSize();
 	void printPlayer(const EPlayers& player);

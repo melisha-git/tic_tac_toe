@@ -29,64 +29,38 @@ void Settings::setName(const EPlayers& player, const std::string& name) {
 	switch (player)
 	{
 	case EPlayers::playerOne:
-		playerOne_ = name;
+		return Settings::setPlayerName(playerOne_, name);
 	case EPlayers::playerTwo:
-		playerTwo_ = name;
+		return Settings::setPlayerName(playerTwo_, name);
 	}
 }
 
+void Settings::setPlayerName(std::string& thisName, const std::string& otherName)
+{
+	thisName = otherName;
+}
+
 void Settings::printSize() {
-	int key = 0;
-	std::string commandLine;
-	do {
-		if (_kbhit()) {
-			key = _getch();
-			switch (key)
-			{
-			case 13:
-				if (std::all_of(commandLine.begin(), commandLine.end(), ::isdigit)) {
-					setSize(std::stoul(commandLine));
-				}
-				break;
-			case 27:
-				break;
-			default:
-				commandLine += static_cast<char>(key);
-				break;
-			}
-		}
-		std::cout << "Size: " << commandLine << "|" << std::endl;
-		using namespace std::chrono_literals;
-		std::this_thread::sleep_for(10ms);
-		system("cls");
-	} while (key != 27 && key != 13);
+	CommandLine<size_t> commands;
+	commands.print(sz_, "Size", [](size_t &size, const std::string& param) {
+		if (std::all_of(param.begin(), param.end(), ::isdigit))
+			size = std::stol(param);
+		if (size > 20)
+			size = 20;
+	});
 }
 
 void Settings::printPlayer(const EPlayers& player)
 {
-	int key = 0;
-	std::string commandLine;
-	do {
-		if (_kbhit()) {
-			key = _getch();
-			switch (key)
-			{
-			case 13:
-				setName(player, commandLine);
-				break;
-			case 27:
-				break;
-			default:
-				commandLine += static_cast<char>(key);
-				break;
-			}
-		}
-		if (player == EPlayers::playerOne)
-			std::cout << "Player One Name: " << commandLine << "|" << std::endl;
-		else
-			std::cout << "Player Two Name: " << commandLine << "|" << std::endl;
-		using namespace std::chrono_literals;
-		std::this_thread::sleep_for(10ms);
-		system("cls");
-	} while (key != 27 && key != 13);
+	CommandLine<std::string> commands;
+	if (player == EPlayers::playerOne) {
+		commands.print(playerOne_, "Player One Name", [](std::string&paramether, const std::string &name) {
+			paramether = name;
+		});
+	}
+	else {
+		commands.print(playerTwo_, "Player Two Name", [](std::string& paramether, const std::string& name) {
+			paramether = name;
+		});
+	}
 }
