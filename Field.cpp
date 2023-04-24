@@ -67,7 +67,7 @@ bool Field::checkWinner(const char& ch)
     for (int i = 0; i < size_; ++i) {
         result = true;
         for (int j = 0; j < size_; ++j) {
-            if (field_[i][j] != ch || field_[i][size_ - 1 - j] != ch) {
+            if (field_[i][j] != ch) {
                 result = false;
                 break;
             }
@@ -78,7 +78,7 @@ bool Field::checkWinner(const char& ch)
     for (int i = 0; i < size_; ++i) {
         result = true;
         for (int j = 0; j < size_; ++j) {
-            if (field_[j][i] != ch || field_[j][size_ - 1 - i] != ch) {
+            if (field_[j][i] != ch) {
                 result = false;
                 break;
             }
