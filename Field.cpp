@@ -1,3 +1,13 @@
+/**
+* _______                                                    _   _                                  _          _____                        _  _
+*(_______)   _      _                                       | | (_)                                | |        / __  \                      (_)| |
+* _        _| |_  _| |_    _____   ___  _____  _   _  _____ | |  _  _____  _   _   ____   ___    __| | _____ | | /   )  ____  ____   _____  _ | |      ____   ___   ____
+*| |      (_   _)(_   _)  | ___ | /___)(____ || | | || ___ || | | || ___ || | | | / ___) / _ \  / _  || ___ || | \__/  / _  ||    \ (____ || || |     / ___) / _ \ |    \
+*| |_____   |_|    |_|    | ____||___ |/ ___ | \ V / | ____|| | | || ____| \ V / ( (___ | |_| |( (_| || ____|| |____  ( (_| || | | |/ ___ || || |  _ ( (___ | |_| || | | |
+* \______)                |_____)(___/ \_____|  \_/  |_____) \_)|_||_____)  \_/   \____) \___/  \____||_____) \_____)  \___ ||_|_|_|\_____||_| \_)(_) \____) \___/ |_|_|_|
+*                                                                                                                     (_____|
+**/
+
 #include "Field.hpp"
 
 Field::Field(const size_t& sz)
@@ -43,7 +53,7 @@ bool Field::setElement(const int& posX, const int& posY, const EPlayers& player)
     return false;
 }
 
-int Field::getSize() const {
+size_t Field::getSize() const {
     return size_;
 }
 
@@ -64,9 +74,9 @@ EPlayers Field::checkWinner() {
 bool Field::checkWinner(const char& ch)
 {
     bool result = true;
-    for (int i = 0; i < size_; ++i) {
+    for (size_t i = 0; i < size_; ++i) {
         result = true;
-        for (int j = 0; j < size_; ++j) {
+        for (size_t j = 0; j < size_; ++j) {
             if (field_[i][j] != ch || field_[i][size_ - 1 - j] != ch) {
                 result = false;
                 break;
@@ -75,9 +85,9 @@ bool Field::checkWinner(const char& ch)
         if (result == true)
             return result;
     }
-    for (int i = 0; i < size_; ++i) {
+    for (size_t i = 0; i < size_; ++i) {
         result = true;
-        for (int j = 0; j < size_; ++j) {
+        for (size_t j = 0; j < size_; ++j) {
             if (field_[j][i] != ch || field_[j][size_ - 1 - i] != ch) {
                 result = false;
                 break;
@@ -87,7 +97,7 @@ bool Field::checkWinner(const char& ch)
             return result;
     }
     result = true;
-    for (int i = 0, j = 0; i < size_ && j < size_; ++i, ++j) {
+    for (size_t i = 0, j = 0; i < size_ && j < size_; ++i, ++j) {
         if (field_[i][j] != ch) {
             result = false;
             break;
@@ -95,7 +105,7 @@ bool Field::checkWinner(const char& ch)
     }
     if (result == true)
         return result;
-    for (int i = 0, j = size_ - 1; i < size_ && j >= 0; ++i, --j) {
+    for (size_t i = 0, j = size_ - 1; i < size_ && j >= 0; ++i, --j) {
         if (field_[i][j] != ch)
             return false;
     }

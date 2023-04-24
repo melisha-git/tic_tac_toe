@@ -135,11 +135,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandLine.hpp" />
+    <ClInclude Include="EnumsMenu.hpp" />
     <ClInclude Include="EPlayers.hpp" />
     <ClInclude Include="Field.hpp" />
     <ClInclude Include="Menu.hpp" />
     <ClInclude Include="Settings.hpp" />
     <ClInclude Include="TicTacToe.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="tic_tac_toe.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
